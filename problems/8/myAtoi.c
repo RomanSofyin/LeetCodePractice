@@ -1,54 +1,33 @@
 int myAtoi(char * s){
-    int res;
-    int pos = 1;
-    printf("100: INT_MIN=%d, INT_MAX=%d \n", INT_MIN, INT_MAX);   
+    int res = 0;
+    int sign = 1;
     
-    while (*s == ' ')
-        s++;
+    while (*s == ' ') s++;  /* skip all the leading blanks */
     
-    printf("350: *s=%c \n", *s);
-    
-    if (*s != '+' && *s != '-' && !isdigit(*s))
+    if (*s != '+' && *s != '-' && !isdigit(*s)) /* if first non-blank char is not +/-/digit, we have nothing to do */
         return 0;
     
     if (*s == '+' || *s == '-') {
-        if ( !isdigit(*(s+1)) )
-            return 0;
-        if (*s == '-')
-            pos = -1;
-        s++;
+        /* if first non-blank char is either + or - */ 
+        if (*s == '-')  /* sign must be set properly in case of -*/
+            sign = -1;
+        s++;            /* s needs to be adjusted for the loop */
     }
     
-    int int_max_div_10 = INT_MAX / 10;
-    int int_min_div_10 = INT_MIN / 10;
-
-    
-    char cz = '0';
-    res = (*s - cz) * pos;
-    
-    printf("400: res=%d, pos=%d \n", res, pos);
-    
-    int acc;
-    
-    while (isdigit(*(++s))) {
-        if (pos == 1) {
-            if ( int_max_div_10 >= res )
-                acc = res * 10;
-        } else {
-            
-        }
-        acc = res * 10;
-        
-        printf("480: acc=%d, res=%d \n", acc, res);
-        acc = acc + (*s - cz) * pos;
-        printf("500: acc=%d, res=%d \n", acc, res);
-        
-        if (pos == 1 && acc < res)
+    while (isdigit(*(s))) { /* loop while s is pointing to a digit */
+        /* make sure we won't get overflow */
+        if ( (sign == 1)  && ( (INT_MAX / 10) < res) )
             return INT_MAX;
-        if (pos == -1 && acc > res)
+        else if ( (sign == -1) && ( (INT_MIN / 10) > res) )
             return INT_MIN;
+        res *= 10;
         
-        res = acc;
+        int d = (*(s++) - '0');
+        if ( (sign == 1)  && ( (INT_MAX - d) < res) )
+            return INT_MAX;
+        else if ( (sign == -1) && ( (INT_MIN + d) > res) )
+            return INT_MIN;
+        res += d * sign;
     }
     
     return res;
