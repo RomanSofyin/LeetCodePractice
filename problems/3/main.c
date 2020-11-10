@@ -13,11 +13,13 @@ int lengthOfLongestSubstring(char*);
 
 int main () {
 
-    TEST_RUN("abcadefg", 3);    // "abc"
-    TEST_RUN("aabcdefg", 1);    // "a" 
-    TEST_RUN("abcdefg", 7);     // "abcdefg"
-    TEST_RUN("pwwkew", 7);      // "wke"
     TEST_RUN("", 0);            // ""
+    TEST_RUN("a", 1);           // "a" 
+    TEST_RUN("aa", 1);          // "a" 
+    TEST_RUN("abc", 3);         // "a" 
+    TEST_RUN("abca", 3);        // "abc"
+    TEST_RUN("abcad", 4);       // "bcad"
+    TEST_RUN("abcadb", 4);      // "bcad"
     TEST_RUN(NULL, 0);          // excessive, not the task case
     
     return 0;
