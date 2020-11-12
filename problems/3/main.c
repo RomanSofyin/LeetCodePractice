@@ -20,6 +20,9 @@ int main () {
     TEST_RUN("abca", 3);        // "abc"
     TEST_RUN("abcad", 4);       // "bcad"
     TEST_RUN("abcadb", 4);      // "bcad"
+    /* * */
+    TEST_RUN("abcabcbb", 3);    // "abc"
+    TEST_RUN("abbb", 2);        // "ab"
     TEST_RUN(NULL, 0);          // excessive, not the task case
     
     return 0;
@@ -28,19 +31,23 @@ int main () {
 
 int lengthOfLongestSubstring(char * s)
 {
-    if (!s)
+    if (!s || !(*s))    // NULL or ""
         return 0;
     
+    int res = 1;        // minumum one char string
+
     char* si = s;
 
-    while (*si) {
-        for (char* sj = s; sj < si; sj++) {
-            if ( *sj == *si )
-                return si-s;
+    while ( *(++si) ) {
+        for (char* sn = s; sn < si; sn++ ) {
+            if ( *sn == *si ) {
+                res = ( res < (si-s) ) ? (si-s) : res;
+                s = sn + 1;
+                break;
+            }
         }
-        si++;
     }
-
-    /* whole 's' string contains unique chars */
-    return si-s;
+    res = ( res < (si-s) ) ? (si-s) : res;
+    
+    return res;
 }
