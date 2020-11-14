@@ -36,18 +36,18 @@ int lengthOfLongestSubstring(char * s)
     
     int res = 1;        // minumum one char string
 
-    char* si = s;
+    char* si = s;       //  right boundary of the string
 
-    while ( *(++si) ) {
-        for (char* sn = s; sn < si; sn++ ) {
-            if ( *sn == *si ) {
-                res = ( res < (si-s) ) ? (si-s) : res;
-                s = sn + 1;
-                break;
+    while ( *(++si) ) { // loop throug all the chars in string
+        for (char* sn = s; sn < si; sn++ ) {            // check if all the chars in substr [s;si] are uniqueue
+            if ( *sn == *si ) {                         // a duplicate is found
+                res = ( res < (si-s) ) ? (si-s) : res;  // update length if needed
+                s = sn + 1;                             // updateleft substr boundary
+                break;                                  // proceed with new substr [s;(si+1)]
             }
         }
     }
-    res = ( res < (si-s) ) ? (si-s) : res;
+    res = ( res < (si-s) ) ? (si-s) : res;  // in case were no dupl in last substr
     
     return res;
 }
